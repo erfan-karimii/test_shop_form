@@ -1,0 +1,20 @@
+<div style="text-align:center ;">
+    {{request.user}}
+<form  method='post' action="{% url 'account:info' %}">
+    {% csrf_token %}
+    <input type="hidden" name="receiver_name" value="{{x.receiver_name}}">
+
+    <input type="text" name="province"  value="{{x.province}}" placeholder="نام استان خود را وارد کنید">
+    <br><br>
+    <input type="text" name="city"  value="{{x.city}}" placeholder="نام شهر خود را وارد کنید">
+    <br><br>
+    <input type="text" value="{{x.address}}"  name="address" placeholder="ادرس خود را وارد کنید">
+    <br><br>
+    <input type="text" name="code_posty" value="{{x.code_posty}}"  placeholder="کد پستی خود را وارد کنید">
+    <br><br>
+    <input type="text" name="code_meli" value="{{x.code_meli}}"  placeholder="کد ملی خود را وارد کنید">
+    <br><br>
+    <button type="submit" name='btn2' value="save">save</button>
+</form>
+
+</div>

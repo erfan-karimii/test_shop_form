@@ -1,0 +1,10 @@
+<ul class="dropdown">
+    {% for nav in nav.navasli_set.all %}
+    <li><a href="{{nav.link}}" class="site-nav">{{nav.name}}{% if nav.navasli_set.all %}<i
+            class="anm anm-angle-left-l"></i>{% endif %}</a>
+        {% if nav.navasli_set.all %}
+            {% include 'looped_nav.html' %}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

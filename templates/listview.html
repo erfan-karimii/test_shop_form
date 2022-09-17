@@ -1,0 +1,342 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Collection Banner-->
+    <div class="collection-header">
+        <div class="collection-hero">
+            <div class="collection-hero__image"><img class="blur-up lazyload" data-src="{{sitesetting.image_bg.url}}" src="{{sitesetting.image_bg.url}}" alt="{{sitesetting.alt_bg}}" title="test" /></div>
+            <div class="collection-hero__title-wrapper"><h1 class="collection-hero__title page-width">{{sitesetting.alt_bg}}</h1></div>
+        </div>
+    </div>
+    <!--End Collection Banner-->
+
+    <div class="container">
+        <div class="row">
+            <!--Sidebar-->
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 sidebar filterbar">
+                <div class="closeFilter d-block d-md-none d-lg-none"><i class="icon icon anm anm-times-l"></i></div>
+                <div class="sidebar_tags">
+
+                    <!--Categories-->
+                    <div class="sidebar_widget categories filter-widget">
+                        <div class="widget-title"><h2>دسته بندی ها</h2></div>
+                        <div class="widget-content">
+                            <ul class="sidebar_categories">
+                                {% for cat in categorys %}
+                                    {% if cat.zir_category_set.all %}
+                                    <li class="level1 sub-level">
+                                        <a class="site-nav">{{cat.name}}</a>
+                                        <ul class="sublinks">
+                                            {% for x in cat.zir_category_set.all %}
+                                            <li class="level2"><a href="{% url 'poduct:category_listview' x.name %}" class="site-nav">{{x.name}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% else %}
+                                    <li class="lvl-1"><a href="{% url 'poduct:category_listview' cat.name %}" class="site-nav">{{cat.name}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Categories-->
+
+                    <!--Price Filter-->
+                    <div class="sidebar_widget filterBox filter-widget">
+                        <div class="widget-title">
+                            <h2>قیمت</h2>
+                        </div>
+                        <form action="#" method="post" class="price-filter">
+                            <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p class="no-margin"><input id="amount" type="text"></p>
+                                </div>
+                                <div class="col-12 text-right margin-25px-top mt-3">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--End Price Filter-->
+
+                    <!--Size Swatches-->
+                    <div class="sidebar_widget filterBox filter-widget size-swacthes">
+                        <div class="widget-title"><h2>سایز</h2></div>
+                        <div class="filter-color swacth-list">
+                            <ul>
+                                {% for p in products_size %}
+                                <li><span class="swacth-btn">{{p.size_asli}}</span></li>
+                                {% endfor %}
+                                {% for s in sizes %}
+                                <li><span class="swacth-btn">{{s.size}}</span></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Size Swatches-->
+                    
+                    {% comment %} 
+                        <!--Color Swatches-->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title"><h2>رنگ</h2></div>
+                            <div class="filter-color swacth-list clearfix">
+                                {% for col in colors %}
+                                <span style="background-color:{{col.color}}" class="swacth-btn"></span>
+                                {% endfor %}
+                                {% for p in all_product %}
+                                <span style="background-color:{{p.color}}" class="swacth-btn"></span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--End Color Swatches--> 
+                    {% endcomment %}
+
+                    <!--Brand-->
+                    <div class="sidebar_widget filterBox filter-widget">
+                        <div class="widget-title"><h2>برند ها</h2></div>
+                        <ul>
+                            {% for x in companys %}
+                            <li>
+                                <input type="checkbox" value="allen-vela" id="check{{x.id}}">
+                                <label for="check{{x.id}}"><span><span></span></span>{{x.name}}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <button class="btn btn-secondary btn--small" disabled >فیلتر</button>
+                    <br>
+                    <br>
+                    <!--End Brand-->
+
+                    <!--Popular Products-->
+                    {% comment %} <div class="sidebar_widget">
+                        <div class="widget-title"><h2>محصولات محبوب</h2></div>
+                        <div class="widget-content">
+                            <div class="list list-sidebar-products">
+                                <div class="grid">
+                                    <div class="grid__item">
+                                        <div class="mini-list-item">
+                                            <div class="mini-view_image">
+                                                <a class="grid-view-item__link" href="#">
+                                                    <img class="grid-view-item__image" src="{% static 'assets/images/product-images/mini-product-img.jpg' %}" alt="test"/>
+                                                </a>
+                                            </div>
+                                            <div class="details"><a class="grid-view-item__title" href="#">کالا 1</a>
+                                                <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">173,000 تومان</span></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid__item">
+                                        <div class="mini-list-item">
+                                            <div class="mini-view_image"><a class="grid-view-item__link" href="#">
+                                                <img class="grid-view-item__image" src="{% static 'assets/images/product-images/mini-product-img1.jpg' %}" alt="test"/></a>
+                                            </div>
+                                            <div class="details"><a class="grid-view-item__title" href="#">کالا 2</a>
+                                                <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">378,000 تومان</span></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid__item">
+                                        <div class="mini-list-item">
+                                            <div class="mini-view_image"><a class="grid-view-item__link" href="#">
+                                                <img class="grid-view-item__image" src="{% static 'assets/images/product-images/mini-product-img2.jpg' %}" alt="test"/></a>
+                                            </div>
+                                            <div class="details"><a class="grid-view-item__title" href="#">کالا 3</a>
+                                                <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">278,000 تومان</span></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                    <!--End Popular Products-->
+                    <!--Information-->
+                    <div class="sidebar_widget">
+                        <div class="widget-title"><h2>اطلاعات سایت</h2></div>
+                        <div class="widget-content">
+                            <p>{{sitesetting.text}}</p>
+                        </div>
+                    </div>
+                    <!--end Information-->
+
+                </div>
+            </div>
+            <!--End Sidebar-->
+            <!--Main Content-->
+            <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
+                {% if cat.text %}
+                <div class="category-description">
+                    <h3>توضیحات دسته بندی</h3>
+                    {{cat.text|safe}}
+                </div>
+                <hr>
+                {% endif %}
+                <div class="productList">
+                    <!--Toolbar-->
+                    <button type="button" class="btn btn-filter d-block d-md-none d-lg-none"> فیلتر های محصول</button>
+                    <div class="toolbar">
+                        <div class="filters-toolbar-wrapper">
+                            <div class="row">
+                                <div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
+                                    لیست محصولات
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+                                    <span class="filters-toolbar__product-count"></span>
+                                </div>
+                                <div class="col-4 col-md-4 col-lg-4 text-left">
+                                    <div class="filters-toolbar__item">
+                                        <label for="SortBy" class="hidden">مرتب سازی</label>
+                                        <select name="SortBy" id="SortBy" class="filters-toolbar__input filters-toolbar__input--sort">
+                                            <option value="title-ascending" selected="selected">مرتب سازی</option>
+                                            <option>پرفروش ها</option>
+                                            <option>به ترتیب الفبا</option>
+                                            <option>به ترتیب الفبا، برعکس</option>
+                                            <option>قیمت، کم به زیاد</option>
+                                            <option>قیمت زیاد به کم</option>
+                                            <option>بر اساس تاریخ</option>
+                                            <option>بر اساس تاریخ، برعکس</option>
+                                        </select>
+                                        <input class="collection-header__default-sort" type="hidden" value="manual">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Toolbar-->
+                    <div class="grid-products grid--view-items">
+                        <div class="row">
+                            {% for pro in products %}
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3 item">
+                                <!-- start product image -->
+                                <div class="product-image">
+                                    <!-- start product image -->
+                                    <a href="{% url 'poduct:detailview' pro.id %}">
+                                        <!-- image -->
+                                        <img class="primary blur-up lazyload" data-src="{{pro.image.url}}"
+                                                src="{{pro.image.url}}" alt="{{alt}}">
+                                        <!-- End image -->
+                                        <!-- Hover image -->
+                                        <img class="hover blur-up lazyload" data-src="{{pro.image_2.url}}"
+                                                src="{{pro.image_2.url}}" alt="{{alt_2}}">
+                                        <!-- End hover image -->
+                                        <!-- product label -->
+                                        <div class="product-labels rectangular">{% if pro.takhfif %}<span class="lbl on-sale">{{pro.takhfif}}%</span>{% endif %}</div>
+                                        <!-- End product label -->
+                                    </a>
+                                    <!-- end product image -->
+
+                                    {% comment %} <!-- countdown start -->
+                                    <div class="saleTime desktop" data-countdown="{{pro.created.year}}/{{pro.created.month}}/{{pro.created.day}}"></div>
+                                    <!-- countdown end --> {% endcomment %}
+
+                                    <!-- Start product button -->
+                                    {% comment %} <form class="variants add" action="#" onclick="window.location.href='cart.html'" method="post">
+                                        <button class="btn btn-addto-cart" type="button">انتخاب گزینه ها</button>
+                                    </form> {% endcomment %}
+                                    {% comment %} <div class="button-set">
+                                        <a href="javascript:void(0)" title="مشاهده" class="quick-view-popup quick-view" data-toggle="modal"
+                                            data-target="#content_quickview">
+                                            <i class="icon anm anm-search-plus-r"></i>
+                                        </a>
+                                        <div class="wishlist-btn">
+                                            <a class="wishlist add-to-wishlist" href="#" title="افزودن به علاقه مندی">
+                                                <i class="icon anm anm-heart-l"></i>
+                                            </a>
+                                        </div>
+                                        <div class="compare-btn">
+                                            <a class="compare add-to-compare" href="#" title="افزودن برای مقایسه">
+                                                <i class="icon anm anm-random-r"></i>
+                                            </a>
+                                        </div>
+                                    </div> {% endcomment %}
+                                    <!-- end product button -->
+                                </div>
+                                <!-- end product image -->
+
+                                <!--start product details -->
+                                <div class="product-details text-center">
+                                    <!-- product name -->
+                                    <div class="product-name">
+                                        <a href="{% url 'poduct:detailview' pro.id %}">{{pro.name}}</a>
+                                    </div>
+                                    <!-- End product name -->
+                                    <!-- product price -->
+                                    <div class="product-price">
+                                    {% if pro.tedad_mahsole == 0 %}
+                                        ناموجود
+                                    {% else %}
+                                        {% if not pro.takhfif %}
+                                        <span class="price" id='id{{pro.id}}' >{{pro.price_asli}} تومان</span>
+                                        {% else %}
+                                        <span class="old-price">{{pro.price_asli}}</span>
+                                        <span class="price" id='id{{pro.id}}' >{{pro.main_discount_cal}} تومان</span>
+                                        {% endif %}
+                                    {% endif %}
+                                    </div>
+                                    <!-- End product price -->
+
+                                    {% comment %} <div class="product-review">
+                                        <i class="font-13 fa fa-star"></i>
+                                        <i class="font-13 fa fa-star"></i>
+                                        <i class="font-13 fa fa-star"></i>
+                                        <i class="font-13 fa fa-star-o"></i>
+                                        <i class="font-13 fa fa-star-o"></i>
+                                    </div> {% endcomment %}
+                                    <!-- Variant -->
+                                    {% comment %} <ul class="swatches">
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant1.jpg" alt="image"/></li>
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant2.jpg" alt="image"/></li>
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant3.jpg" alt="image"/></li>
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant4.jpg" alt="image"/></li>
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant5.jpg" alt="image"/></li>
+                                        <li class="swatch medium rounded"><img src="assets/images/product-images/variant6.jpg" alt="image"/></li>
+                                    </ul> {% endcomment %}
+                                    <!-- End Variant -->
+                                </div>
+                                <!-- End product details -->
+                                {% comment %} <!-- countdown start -->
+                                <div class="timermobile"><div class="saleTime desktop" data-countdown="2022/03/01"></div></div>
+                                <!-- countdown end --> {% endcomment %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    <ul>
+                        {% if products.has_previous %}
+                        <li class="next"><a href="?page={{ products.previous_page_number }}"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>
+                        <li><a href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a></li>
+                        {% endif %}
+
+                        <li class="active"><a>{{ products.number }}</a></li>
+
+                        {% if products.has_next %}
+                        <li><a href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a></li>
+                        <li class="next"><a href="?page={{ products.next_page_number }}"><i class="fa fa-caret-left" aria-hidden="true"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+            </div>
+            <!--End Main Content-->
+        </div>
+    </div>
+
+</div>
+<!--End Body Content-->
+
+{% endblock body %}
+{% block classbody %}template-collection belle{% endblock classbody %}
+{% block js %}<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>{% endblock js %}
+
+

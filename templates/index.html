@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Home slider-->
+    <div class="slideshow slideshow-wrapper pb-section">
+        <div class="home-slideshow" dir="ltr">
+            {% for slider in sliders %}
+            <div class="slide">
+                <div class="blur-up lazyload">
+                    <img class="blur-up lazyload" data-src="{{slider.image.url}}"
+                            src="{{slider.image.url}}" alt="{{slider.alt}}">
+                    <div class="slideshow__text-wrap slideshow__overlay classic middle">
+                        <div class="slideshow__text-content middle">
+                            <div class="container">
+                                <div class="wrap-caption {{slider.text_dir}}">
+                                    <h2 class="h1 mega-title slideshow__title">{{slider.text_bold}}</h2>
+                                    <span class="mega-subtitle slideshow__subtitle">{{slider.text_simple}}</span>
+                                    <a href='{{slider.link}}' style='color:white;'><span class="btn">{{slider.name_button}}</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--End Home slider-->
+    <!--Weekly Bestseller-->
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="section-header text-center">
+                        <h2 class="h2">پر فروشترین های هفته</h2>
+                        <p>محبوب ترین محصولات ما بر اساس فروش</p>
+                    </div>
+                    <div class="productSlider grid-products" dir="ltr">
+                        {% for product in last_product_1 %}
+                        <div class="col-12 item">
+                            <!-- start product image -->
+                            <div class="product-image">
+                                <!-- start product image -->
+                                <a  class="grid-view-item__link">
+                                    <!-- image -->
+                                    <img class="primary blur-up lazyload" data-src="{{product.image.url}}"
+                                            src="{{product.image.url}}" alt="{{product.alt}}" title="محصول">
+                                    <!-- End image -->
+                                    <!-- Hover image -->
+                                    <img class="hover blur-up lazyload" data-src="{{product.image_2.url}}"
+                                            src="{{product.image_2.url}}" alt="{{product.alt_2}}" title="محصول">
+                                    <!-- End hover image -->
+                                    <!-- Variant Image-->
+                                    <img class="grid-view-item__image hover variantImg" src="{{product.image.url}}" alt="{{product.alt}}" title="محصول">
+                                    <!-- Variant Image-->
+                                    <!-- product label -->
+                                    <div class="product-labels rounded">{% if product.takhfif %}<span class="lbl on-sale">حراج</span>{% endif %}</div>
+                                    <!-- End product label -->
+                                </a>
+                                <!-- end product image -->
+
+                                <!-- countdown start -->
+                                {% comment %} <div class="saleTime desktop" data-countdown="2022/03/01"></div> {% endcomment %}
+                                <!-- countdown end -->
+
+                                <!-- Start product button -->
+                                <form class="variants add" action="#"
+                                        onclick="window.location.href='{% url 'poduct:detailview' product.id %}'" method="post">
+                                    <button class="btn btn-addto-cart" type="button" tabindex="0">مشاهده بیشتر</button>
+                                </form>
+                                <div class="button-set">
+                                    <a href="javascript:void(0)" title="نمایش سریع"
+                                        class="quick-view-popup quick-view" data-toggle="modal"
+                                        data-target="#content_quickview">
+                                        <i class="icon anm anm-search-plus-r"></i>
+                                    </a>
+                                    <div class="wishlist-btn">
+                                        <a class="wishlist add-to-wishlist" href="#">
+                                            <i class="icon anm anm-heart-l"></i>
+                                        </a>
+                                    </div>
+                                    <div class="compare-btn">
+                                        <a class="compare add-to-compare" href="#"
+                                            title="مقایسه">
+                                            <i class="icon anm anm-random-r"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- end product button -->
+                            </div>
+                            <!-- end product image -->
+                            <!--start product details -->
+                            <div class="product-details text-center">
+                                <!-- product name -->
+                                <div class="product-name">
+                                    <a href="{% url 'poduct:detailview' product.id %}">{{product.name}}</a>
+                                </div>
+                                <!-- End product name -->
+                                <!-- product price -->
+                                <div class="product-price">
+                                    {% if product.tedad_mahsole == 0 %}
+                                        ناموجود
+                                    {% else %}
+                                        {% if not product.takhfif %}
+                                        <span class="price" id='id{{product.id}}' >{{product.price_asli}} تومان</span>
+                                        {% else %}
+                                        <span class="old-price">{{product.price_asli}}</span>
+                                        <span class="price" id='id{{product.id}}' >{{product.main_discount_cal}} تومان</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <!-- End product price -->
+                                <!-- Color Variant -->
+                                <ul class="swatches">
+                                    <li class="swatch small rounded test1" style="background-color:{{product.color_asli}} ;"  rel="assets/images/product-images/product-image-stw1.jpg"></li>
+                                    {% for x in product.color_set.all %}
+                                    <li class="swatch small rounded test2" style="background-color:{{x.color}} ;"  rel="assets/images/product-images/product-image-stw1.jpg"></li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                                <!-- End Variant -->
+                            </div>
+                            <!-- End product details -->
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Weekly Bestseller-->
+    <!--Parallax Section-->
+    <div class="section">
+        <div class="hero hero--large hero__overlay bg-size">
+            <img class="bg-img" src="{% static 'assets/images/parallax-banners/parallax-banner.jpg' %}" alt=""/>
+            <div class="hero__inner">
+                <div class="container">
+                    <div class="wrap-text left text-small font-bold">
+                        <h2 class="h2 mega-title">Belle <br> بهترین انتخاب برای فروشگاه شما</h2>
+                        <div class="rte-setting mega-subtitle">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان
+                            که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز
+                        </div>
+                        <a href="/list/" class="btn">هم اکنون بخرید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Parallax Section-->
+    <!--New Arrivals-->
+    <div class="product-rows section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="section-header text-center">
+                        <h2 class="h2">تازه ترین ها</h2>
+                        <p>قبل از به اتمام رسیدن اجناس خرید کنید</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-products">
+                <div class="row">
+                    {% for product in last_product_1 %}
+                    <div class="col-6 col-sm-2 col-md-3 col-lg-3 item">
+                        <!-- start product image -->
+                        <div class="product-image">
+                            <!-- start product image -->
+                            <a class="grid-view-item__link">
+                                <!-- image -->
+                                <img class="primary blur-up lazyload" data-src="{{product.image.url}}"
+                                        src="{{product.image.url}}" alt="{{product.alt}}">
+                                <!-- End image -->
+                                <!-- Hover image -->
+                                <img class="hover blur-up lazyload" data-src="{{product.image_2.url}}"
+                                        src="{{product.image_2.url}}" alt="{{product.alt_2}}">
+                                <!-- End hover image -->
+                                <!-- Variant Image-->
+                                <img class="grid-view-item__image hover variantImg" src="{{product.image.url}}" alt="{{product.alt}}">
+                                <!-- Variant Image-->
+                                <!-- product label -->
+                                <div class="product-labels rounded">{% if product.takhfif %}<span class="lbl on-sale">حراج</span>{% endif %}</div>
+                                <!-- End product label -->
+                            </a>
+                            <!-- end product image -->
+
+                            <!-- countdown start -->
+                            {% comment %} <div class="saleTime desktop" data-countdown="2024/03/01"></div> {% endcomment %}
+                            <!-- countdown end -->
+
+                            <!-- Start product button -->
+                            <form class="variants add" action="#" onclick="window.location.href='{% url 'poduct:detailview' product.id %}'" method="post">
+                                <button class="btn btn-addto-cart" type="button" tabindex="0">مشاهده بیشتر</button>
+                            </form>
+                            <div class="button-set">
+                                <a href="javascript:void(0)" title="نمایش سریع" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
+                                    <i class="icon anm anm-search-plus-r"></i>
+                                </a>
+                                <div class="wishlist-btn">
+                                    <a class="wishlist add-to-wishlist" href="#">
+                                        <i class="icon anm anm-heart-l"></i>
+                                    </a>
+                                </div>
+                                <div class="compare-btn">
+                                    <a class="compare add-to-compare" href="#" title="مقایسه">
+                                        <i class="icon anm anm-random-r"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- end product button -->
+                        </div>
+                        <!-- end product image -->
+                        <!--start product details -->
+                        <div class="product-details text-center">
+                            <!-- product name -->
+                            <div class="product-name">
+                                <a href="#">{{product.name}}</a>
+                            </div>
+                            <!-- End product name -->
+                            <!-- product price -->
+                            <div class="product-price">
+                                {% if product.tedad_mahsole == 0 %}
+                                    ناموجود
+                                {% else %}
+                                    {% if not product.takhfif %}
+                                    <span class="price">{{product.price_asli}} تومان</span>
+                                    {% else %}
+                                    <span class="old-price">{{product.price_asli}} تومان</span>
+                                    <span class="price">{{product.main_discount_cal}} تومان</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <!-- End product price -->
+                            <!-- Color Variant -->
+                            <ul class="swatches">
+                                <li class="swatch small rounded navy" rel="assets/images/product-images/product-image-stw1.jpg"></li>
+                                <li class="swatch small rounded green" rel="assets/images/product-images/product-image-stw1-1.jpg"></li>
+                                <li class="swatch small rounded gray" rel="assets/images/product-images/product-image-stw1-2.jpg"></li>
+                                <li class="swatch small rounded aqua" rel="assets/images/product-images/product-image-stw1-3.jpg"></li>
+                                <li class="swatch small rounded orange" rel="assets/images/product-images/product-image-stw1-4.jpg"></li>
+                            </ul>
+                            <!-- End Variant -->
+                        </div>
+                        <!-- End product details -->
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    {% for product in last_product_2 %}
+                    <div class="col-6 col-sm-2 col-md-3 col-lg-3 item">
+                        <!-- start product image -->
+                        <div class="product-image">
+                            <!-- start product image -->
+                            <a  class="grid-view-item__link">
+                                <!-- image -->
+                                <img class="primary blur-up lazyload" data-src="{{product.image.url}}"
+                                        src="{{product.image.url}}" alt="{{product.alt}}">
+                                <!-- End image -->
+                                <!-- Hover image -->
+                                <img class="hover blur-up lazyload" data-src="{{product.image_2.url}}"
+                                        src="{{product.image_2.url}}" alt="{{product.alt_2}}">
+                                <!-- End hover image -->
+                                <!-- Variant Image-->
+                                <img class="grid-view-item__image hover variantImg" src="{{product.image.url}}" alt="{{product.alt}}">
+                                <!-- Variant Image-->
+                                <!-- product label -->
+                                <div class="product-labels rounded">{% if product.takhfif %}<span class="lbl on-sale">حراج</span>{% endif %}</div>
+                                <!-- End product label -->
+                            </a>
+                            <!-- end product image -->
+
+                            <!-- countdown start -->
+                            {% comment %} <div class="saleTime desktop" data-countdown="2022/03/01"></div> {% endcomment %}
+                            <!-- countdown end -->
+
+                            <!-- Start product button -->
+                            <form class="variants add" action="#" onclick="window.location.href='{% url 'poduct:detailview' product.id %}'" method="post">
+                                <button class="btn btn-addto-cart" type="button" tabindex="0">مشاهده بیشتر</button>
+                            </form>
+                            <div class="button-set">
+                                <a href="javascript:void(0)" title="نمایش سریع" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
+                                    <i class="icon anm anm-search-plus-r"></i>
+                                </a>
+                                <div class="wishlist-btn">
+                                    <a class="wishlist add-to-wishlist" href="#">
+                                        <i class="icon anm anm-heart-l"></i>
+                                    </a>
+                                </div>
+                                <div class="compare-btn">
+                                    <a class="compare add-to-compare" href="#" title="مقایسه">
+                                        <i class="icon anm anm-random-r"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- end product button -->
+                        </div>
+                        <!-- end product image -->
+                        <!--start product details -->
+                        <div class="product-details text-center">
+                            <!-- product name -->
+                            <div class="product-name">
+                                <a href="#">{{product.name}}</a>
+                            </div>
+                            <!-- End product name -->
+                            <!-- product price -->
+                            <div class="product-price">
+                                {% if product.tedad_mahsole == 0 %}
+                                ناموجود
+                                {% else %}
+                                    {% if not product.takhfif %}
+                                    <span class="price">{{product.price_asli}} تومان</span>
+                                    {% else %}
+                                    <span class="old-price">{{product.price_asli}} تومان</span>
+                                    <span class="price">{{product.main_discount_cal}} تومان</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <!-- End product price -->
+                            <!-- Color Variant -->
+                            <ul class="swatches">
+                                <li class="swatch small rounded navy" rel="{% static 'assets/images/product-images/product-image-stw1.jpg' %}"></li>
+                                <li class="swatch small rounded green" rel="{% static 'assets/images/product-images/product-image-stw1-1.jpg' %}"></li>
+                                <li class="swatch small rounded gray" rel="{% static 'assets/images/product-images/product-image-stw1-2.jpg' %}"></li>
+                                <li class="swatch small rounded aqua" rel="{% static 'assets/images/product-images/product-image-stw1-3.jpg' %}"></li>
+                                <li class="swatch small rounded orange" rel="{% static 'assets/images/product-images/product-image-stw1-4.jpg' %}"></li>
+                            </ul>
+                            <!-- End Variant -->
+                        </div>
+                        <!-- End product details -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Featured Product-->
+    <!--Logo Slider-->
+    <div class="section logo-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="section-header text-center">
+                        <h2 class="h2">محبوب ترین برندها</h2>
+                    </div>
+                    <div class="logo-bar" dir="ltr">
+                        {% for company in companys %}
+                        <div class="logo-bar__item">
+                            <img src="{{company.image.url}}" alt="{{company.alt}}" >
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Logo Slider-->
+</div>
+<!--End Body Content-->
+
+
+
+
+{% endblock body %}
+
+{% block classbody %}template-index home2-default{% endblock classbody %}
+
+{% block js %}    
+<!--For Newsletter Popup-->
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('.closepopup').on('click', function () {
+            jQuery('#popup-container').fadeOut();
+            jQuery('#modalOverly').fadeOut();
+        });
+
+        var visits = jQuery.cookie('visits') || 0;
+        visits++;
+        jQuery.cookie('visits', visits, {expires: 1, path: '/'});
+        console.debug(jQuery.cookie('visits'));
+        if (jQuery.cookie('visits') >  1) {
+            jQuery('#modalOverly').hide();
+            jQuery('#popup-container').hide();
+        } else {
+            var pageHeight = jQuery(document).height();
+            jQuery('<div id="modalOverly"></div>').insertBefore('body');
+            jQuery('#modalOverly').css("height", pageHeight);
+            jQuery('#popup-container').show();
+        }
+        if (jQuery.cookie('noShowWelcome')) {
+            jQuery('#popup-container').hide();
+            jQuery('#active-popup').hide();
+        }
+    });
+
+    jQuery(document).mouseup(function (e) {
+        var container = jQuery('#popup-container');
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.fadeOut();
+            jQuery('#modalOverly').fadeIn(200);
+            jQuery('#modalOverly').hide();
+        }
+    });
+
+    /*--------------------------------------
+        Promotion / Notification Cookie Bar
+      -------------------------------------- */
+    if (Cookies.get('promotion') != 'true') {
+        $(".notification-bar").show();
+    }
+    $(".close-announcement").on('click', function () {
+        $(".notification-bar").slideUp();
+        Cookies.set('promotion', 'true', {expires: 1});
+        return false;
+    });
+</script>
+<!--End For Newsletter Popup-->
+{% endblock js %}

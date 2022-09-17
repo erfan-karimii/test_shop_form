@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ano_tag %}
+
+
+{% block body %}
+
+                {% comment %} <!--Mobile Logo-->
+                <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="{% static 'assets/images/logo.svg' %}" alt="Belle Multipurpose Html Template"
+                                 title="قالب چند منظوره فروشگاهی Belle"/>
+                        </a>
+                    </div>
+                </div>
+                <!--Mobile Logo--> {% endcomment %}
+                <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+
+                        <div id="header-cart" class="block block-cart">
+                            <ul class="mini-products-list">
+                                <li class="item">
+                                    <a class="product-image" href="#">
+                                        <img src="{% static 'assets/images/product-images/cape-dress-1.jpg' %}"
+                                             alt="3/4 Sleeve Kimono Dress" title=""/>
+                                    </a>
+                                    <div class="product-details">
+                                        <a href="#" class="remove"><i class="anm anm-times-l"
+                                                                      aria-hidden="true"></i></a>
+                                        <a href="#" class="edit-i remove"><i class="anm anm-edit"
+                                                                             aria-hidden="true"></i></a>
+                                        <a class="pName" href="cart.html">نام لباس</a>
+                                        <div class="variant-cart">مشکی / XL</div>
+                                        <div class="wrapQtyBtn">
+                                            <div class="qtyField">
+                                                <span class="label">تعداد:</span>
+                                                <a class="qtyBtn minus" href="javascript:void(0);"><i
+                                                        class="fa anm anm-minus-r" aria-hidden="true"></i></a>
+                                                <input type="text" name="quantity" value="1"
+                                                       class="product-form__input qty">
+                                                <a class="qtyBtn plus" href="javascript:void(0);"><i
+                                                        class="fa anm anm-plus-r" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="priceRow">
+                                            <div class="product-price">
+                                                <span class="money">59,000 تومان</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item">
+                                    <a class="product-image" href="#">
+                                        <img src="assets/images/product-images/cape-dress-2.jpg"
+                                             alt="Elastic Waist Dress - Black / Small" title=""/>
+                                    </a>
+                                    <div class="product-details">
+                                        <a href="#" class="remove"><i class="anm anm-times-l"
+                                                                      aria-hidden="true"></i></a>
+                                        <a href="#" class="edit-i remove"><i class="anm anm-edit"
+                                                                             aria-hidden="true"></i></a>
+                                        <a class="pName" href="cart.html">نام لباس</a>
+                                        <div class="variant-cart">خاکستری / XXL</div>
+                                        <div class="wrapQtyBtn">
+                                            <div class="qtyField">
+                                                <span class="label">تعداد:</span>
+                                                <a class="qtyBtn minus" href="javascript:void(0);"><i
+                                                        class="fa anm anm-minus-r" aria-hidden="true"></i></a>
+                                                <input type="text" name="quantity" value="1"
+                                                       class="product-form__input qty">
+                                                <a class="qtyBtn plus" href="javascript:void(0);"><i
+                                                        class="fa anm anm-plus-r" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="priceRow">
+                                            <div class="product-price">
+                                                <span class="money">99,000 تومان</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="total">
+                                <div class="total-in">
+                                    <span class="label">مبلغ کل:</span><span class="product-price"><span
+                                        class="money">158,000 تومان</span></span>
+                                </div>
+                                <div class="buttonSet text-center">
+                                    <a href="cart.html" class="btn btn-secondary btn--small">نمایش سبد خرید</a>
+                                    <a href="checkout.html" class="btn btn-secondary btn--small">ثبت نهایی</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--EndMinicart Popup-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Header-->
+
+    <!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">سبد خرید شما</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<div class="row">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
+                	<div class="cart style2">
+                		<table>
+                            <thead class="cart__row cart__header">
+                                <tr>
+                                    <th colspan="2" class="text-center">محصول</th>
+                                    <th class="text-center">قیمت</th>
+                                    <th class="text-center">تعداد</th>
+                                    <th class="text-center">مجموع</th>
+                                    <th class="text-center"></th>
+                                    <th class="action">&nbsp;</th>
+                                </tr>
+                            </thead>
+                    		<tbody>
+                            {% for det in details %}
+                            <form method='post' action="{% url 'Cart:update_In_open_order' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name='product_id' value="{{det.product.id}}">                     
+                                <input type="hidden" name='size' value="{{det.size}}">
+                                <input type="hidden" name='color' value="{{det.color}}">
+    
+                                <tr class="cart__row border-bottom line1 cart-flex border-top">
+                                    <td class="cart__image-wrapper cart-flex-item">
+                                        <a href="{% url 'poduct:detailview' det.product.id %}"><img class="cart__image" src="{{det.product.image.url}}" alt="Elastic Waist Dress - Navy / Small"></a>
+                                    </td>
+                                    <td class="cart__meta small--text-left cart-flex-item">
+                                        <div class="list-view-item__title">
+                                            <a href="{% url 'poduct:detailview' det.product.id %}">{{det.product}}</a>
+                                        </div>
+                                        
+                                        <div class="cart__meta-text">
+                                            رنگ : {{det.color}}<br>سایز : {{det.size}}<br>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price-wrapper cart-flex-item">
+                                        <span class="money">{{det.price}} تومان</span>
+                                    </td>
+                                    
+                                    <td class="cart__update-wrapper cart-flex-item">
+                                        <div class="cart__qty text-center">
+                                            <div class="qtyField">
+                                                <a class="qtyBtn minus" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
+                                                <input data-max="{% tedad_mahsole2 det.product.id %}" class="cart__qty-input qty" name='count' type="text"  value="{{det.count}}">
+                                                <a class="qtyBtn plus" href="javascript:void(0);"><i class="icon icon-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                            
+                                    <td class="small--hide cart-price">
+                                        <div><span class="money">{{det.get_detail_sum}}</span></div>
+                                    </td>
+                                    <td class="text-center small--hide"><a class="removebtn" data-href='{{det.id}}' class="btn btn--secondary cart__remove" title="حذف"><i class="icon icon anm anm-times-l"></i></a></td>
+                                    <td colspan="3" class="text-left"><button type="submit" class="btn--link cart-update"><i class="fa fa-refresh"></i> به روز رسانی</button></td>
+                                </tr>
+                            </form>
+                                {% endfor %}
+                            </tbody>
+                    		<tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-right"><a  href="{% url 'poduct:listview' %}" class="btn--link cart-continue"><i class="icon icon-arrow-circle-right"></i> ادامه خرید</a></td>
+                                </tr>
+                            </tfoot>
+                    </table>
+                        <div class="currencymsg">همه سفارشات را به صورت تومان پردازش می کنیم.</div>
+                        <hr>
+					    <div id="shipping-calculator" class="mb-4">
+                    	{% comment %} <h5 class="small--text-center">تخمین های حمل و نقل را دریافت کنید</h5>
+                        <div class="row">
+                        	<div class="col-12 col-sm-12 col-md-4">
+                            	<div class="form-group">
+                                	<label for="address_country">استان</label>
+                          			<select id="address_country" name="address[state]" data-default="">
+                                        <option value="استان" data-provinces="[]">استان</option>
+                                        <option value="---" data-provinces="[]">---</option>
+                                        <option value="آذربایجان شرقی" data-provinces="[]">آذربایجان شرقی</option>
+                                        <option value="آذربایجان غربی" data-provinces="[]">آذربایجان غربی</option>
+                                        <option value="اردبیل" data-provinces="[]">اردبیل</option>
+                                        <option value="اصفهان" data-provinces="[]">اصفهان</option>
+                                        <option value="البرز" data-provinces="[]">البرز</option>
+                                        <option value="ایلام" data-provinces="[]">ایلام</option>
+                                        <option value="بوشهر" data-provinces="[]">بوشهر</option>
+                                        <option value="تهران" data-provinces="[]">تهران</option>
+                                        <option value="چهارمهال و بختیاری" data-provinces="[]">چهارمهال و بختیاری</option>
+                                        <option value="خراسان جنوبی" data-provinces="[]">خراسان جنوبی</option>
+                                        <option value="خراسان رضوی" data-provinces="[]">خراسان رضوی</option>
+                                        <option value="خراسان شمالی" data-provinces="[]">خراسان شمالی</option>
+                                        <option value="خوزستان" data-provinces="[]">خوزستان</option>
+                                        <option value="زنجان" data-provinces="[]">زنجان</option>
+                                        <option value="سمنان" data-provinces="[]">سمنان</option>
+                                        <option value="سیستان و بلوچستان" data-provinces="[]">سیستان و بلوچستان</option>
+                                        <option value="فارس" data-provinces="[]">فارس</option>
+                                        <option value="قزوین" data-provinces="[]">قزوین</option>
+                                        <option value="قم" data-provinces="[]">قم</option>
+                                        <option value="کردستان" data-provinces="[]">کردستان</option>
+                                        <option value="کرمان" data-provinces="[]">کرمان</option>
+                                        <option value="کرمانشاه" data-provinces="[]">کرمانشاه</option>
+                                        <option value="کهگیلویه و بویراحمد" data-provinces="[]">کهگیلویه و بویراحمد</option>
+                                        <option value="گلستان" data-provinces="[]">گلستان</option>
+                                        <option value="گیلان" data-provinces="[]">گیلان</option>
+                                        <option value="لرستان" data-provinces="[]">لرستان</option>
+                                        <option value="مازندران" data-provinces="[]">مازندران</option>
+                                        <option value="مرکزی" data-provinces="[]">مرکزی</option>
+                                        <option value="هرمزگان" data-provinces="[]">هرمزگان</option>
+                                        <option value="همدان" data-provinces="[]">همدان</option>
+                                        <option value="یزد" data-provinces="[]">یزد</option>
+                                    </select>
+                            	</div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-4">
+                            	<div class="form-group">
+                                	<label>شهر</label>
+                          			<select id="address_province" name="address[city]" data-default="">
+                                      <option value="شهر">شهر</option>
+                                      <option value="---">---</option>
+                                      <option value="شهر 1">شهر 1</option>
+                                      <option value="شهر 2">شهر 2</option>
+                                      <option value="شهر 3">شهر 3</option>
+                                      <option value="شهر 4">شهر 4</option>
+                                    </select>
+                            	</div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-4">
+                            	<div class="form-group">
+                                	<label for="address_zip">کد پستی</label>
+                          			<input type="text" id="address_zip" name="address[zip]">
+                            	</div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 actionRow text-center">
+      							<div><input type="button" class="btn btn--secondary get-rates" value="محاسبه هزینه حمل و نقل"></div>
+  							</div>
+                        </div> {% endcomment %}
+                    </div>
+                </div>                   
+               	</div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
+                	{% comment %} <div class="cart-note">
+                    	<div class="solid-border">
+							<h5><label for="CartSpecialInstructions" class="cart-note__label small--text-center">یادداشت خود را به سفارش خود اضافه کنید</label></h5>
+							<textarea name="note" id="CartSpecialInstructions" class="cart-note__input"></textarea>
+						</div>
+                    </div> {% endcomment %}
+                    <div class="solid-border">
+                      <div class="row">
+                      	<span class="col-12 col-sm-6 cart__subtotal-title"><strong>مجموع</strong></span>
+                        <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-left"><span class="money">{{total}}تومان</span></span>
+                      </div>
+                      <div class="cart__shipping">حمل و نقل و مالیات در پرداخت محاسبه شده است</div>
+                      <p class="cart_tearm">
+                        
+                      </p>
+                    
+                      <a href='/address'>  
+                      <input type="submit"  name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" value="ادامه خرید">
+                      </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.1.js"
+  integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+  crossorigin="anonymous">
+</script>
+<script>
+    $(document).ready(function(){
+        $('.removebtn').click(function(e){
+            e.preventDefault()
+            Swal.fire({
+                title: 'ایا میخواهید این محصول را از سبد خرید خود حذف کنید؟',
+                text: "این عمل غیر قابل بازگشت است!",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    x = $(this).data('href')
+
+                    location.href="/remove/" + x
+                }
+            })
+        })
+
+    })
+</script>
+<script>
+function qnt_incre(){
+    $(".qtyBtn").on("click", function() {
+        var qtyField = $(this).parent(".qtyField"),
+        oldValue = $(qtyField).find(".qty").val(),
+        
+        newVal = 1;
+
+        if ($(this).is(".plus")) {
+        max = $(qtyField).find(".qty").data('max')
+        if (oldValue < max ) {
+            newVal = parseInt(oldValue) + 1;        
+            $(qtyField).find(".qty").val(newVal);
+        }
+        } else if (oldValue > 1) {
+        newVal = parseInt(oldValue) - 1;
+        $(qtyField).find(".qty").val(newVal);
+        }
+    });
+}
+qnt_incre()
+//what
+</script>
+{% endblock %}

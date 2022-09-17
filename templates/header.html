@@ -1,0 +1,138 @@
+{% load static %}
+
+<!--Promotion Bar-->
+<div class="notification-bar mobilehide">
+    <a href="{{tabligh.link}}" class="notification-bar__message">{{tabligh.text}}</a>
+    <span class="close-announcement">×</span>
+</div>
+<!--End Promotion Bar-->
+
+<!--Search Form Drawer-->
+<div class="search">
+    <div class="search__form">
+        <form class="search-bar__form" action="#">
+            <button class="go-btn search__button" type="submit"><i class="icon anm anm-search-l"></i></button>
+            <input class="search__input" type="search" name="q" value="" placeholder="جست و جو در فروشگاه..."
+                   aria-label="Search" autocomplete="off">
+        </form>
+        <button type="button" class="search-trigger close-btn"><i class="anm anm-times-l"></i></button>
+    </div>
+</div>
+<!--End Search Form Drawer-->
+
+<!--Top Header-->
+<div class="top-header">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10 col-sm-8 col-md-5 col-lg-4 text-right">
+                <div class="language-dropdown">
+                    <span class="language-dd">فارسی</span>
+                    <ul id="language">
+                        <li class="">English<br>coming soon</li>
+                        <li class="">Français<br>Bientôt</li>
+                    </ul>
+                </div>
+                <p class="phone-no" dir="ltr"><a href="Tel:{{sitesetting.telephon}}" > {{sitesetting.telephon}}</a> <i class="anm anm-phone-s"></i></p>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block center-title">
+                <div class="text-center">
+                    <p class="top-header_middle-text"> {{sitesetting.text_vasat_nav}}</p>
+                </div>
+            </div>
+            <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-left">
+                <span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
+                <ul class="customer-links list-inline">
+                    {% if request.user.is_authenticated %}
+                    <li><a href="/logout/">خروج از حساب</a></li>
+                    {% else %}
+                    
+                    <li><a href="/login/">ورود</a></li>
+                    <li><a href="/register/">ایجاد حساب کاربری</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Top Header-->
+
+<!--Header-->
+<div class="header-wrap animated d-flex border-bottom">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <!--Desktop Logo-->
+            {{request.user}}
+            <div class="logo col-md-2 col-lg-2 d-none d-lg-block text-right">
+                <a href="{% url 'home:home' %}">
+                    <img src="{{sitesetting.logo.url}}" alt="{{sitesetting.alt}}" title="{{sitesetting.name}}">
+                </a>
+            </div>
+            <!--End Desktop Logo-->
+            <div class="col-2 col-sm-3 col-md-3 col-lg-8">
+                <div class="d-block d-lg-none">
+                    <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+                        <i class="icon anm anm-times-l"></i>
+                        <i class="anm anm-bars-r"></i>
+                    </button>
+                </div>
+                <!--Desktop Menu-->
+                <nav class="grid__item" id="AccessibleNav">
+                    <!-- for mobile -->
+                    <ul id="siteNav" class="site-nav medium center hidearrow">
+                        {% for nav in navaslis %}
+                        {% if nav.parent == None %}
+                        <li class="lvl1 parent dropdown"><a href="{{nav.link}}">{{nav.name}}<i
+                                class="anm anm-angle-down-l"></i></a>
+                            {% if nav.navasli_set.all %}
+                                {% include 'looped_nav.html' %}
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+                <!--End Desktop Menu-->
+            </div>
+            <!--Mobile Logo-->
+            <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="{% static 'assets/images/logo.svg' %}" alt="Belle Multipurpose Html Template"
+                             title="قالب چند منظوره فروشگاهی Belle"/>
+                    </a>
+                </div>
+            </div>
+            <!--Mobile Logo-->
+            <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                <div class="site-cart">
+                    <a href="{% url 'Cart:user_open_order' %}" class="site-header__cart" title="سبد خرید">
+                        <i class="icon anm anm-bag-l"></i>
+                    </a>
+                    
+                </div>
+                <div class="site-header__search">
+                    {% comment %} <button type="button" class="search-trigger"><i class="icon anm anm-search-l"></i></button> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Header-->
+
+<div class="mobile-nav-wrapper" role="navigation">
+    <div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> بستن</div>
+    <ul id="MobileNav" class="mobile-nav">
+        {% for nav in navaslis %}
+        {% if nav.parent == None %}
+            <li class="lvl1 parent megamenu"><a href="{{nav.link}}">{{nav.name}}<i class="anm anm-plus-l"></i></a>
+            {% comment %} <li class="lvl1 parent dropdown"><a href="{{nav.link}}">{{nav.name}}<i
+                    class="anm anm-angle-down-l"></i></a> {% endcomment %}
+                {% if nav.navasli_set.all %}
+                    {% include 'looped_nav.html' %}
+                {% endif %}
+            </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>

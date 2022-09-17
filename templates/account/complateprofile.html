@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block classbody %}
+page-template belle
+{% endblock %}
+{% block body %}
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">ایجاد حساب کاربری</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3 mr-auto">
+                	<div class="mb-4">
+                       <form method="post" action="{% url 'account:complate' %}" class="contact-form">
+                        {% csrf_token %}	
+                          <div class="row">
+	                          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                {% comment %} <div class="form-group">
+                                    <label for="FirstName">نام کاربری</label>
+                                    <input type="text" name="username" placeholder="نام کاربری خود را وارد کنید" id='FirstName'>
+                                </div> {% endcomment %}
+                               </div>
+                               <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="LastName">پسوورد</label>
+                                    <input type="password" name="password" placeholder="رمز خود را وارد کنید" id="LastName">
+                                </div>
+                               </div>
+                            {% comment %} <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerEmail">ایمیل</label>
+                                    <input type="email" name="customer[email]" placeholder="" id="CustomerEmail" class="" autocorrect="off" autocapitalize="off" autofocus="">
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerPassword">شماره تلفن</label>
+                                    <input type="text" value="" name="phone" placeholder="شماره تلفن همراه خود را وارد کنید">                        	
+                                </div>
+                            </div> {% endcomment %}
+                          </div>
+                          <div class="row">
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="submit" class="btn mb-3" value="ثبت نام">
+                            </div>
+                         </div>
+                     </form>
+                    </div>
+               	</div>
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+  
+{% endblock %}

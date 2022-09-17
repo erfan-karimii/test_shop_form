@@ -1,0 +1,93 @@
+  <!--Footer-->
+  <footer id="footer" class="footer-2">
+    <div class="newsletter-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                    <div class="display-table">
+                        <div class="display-table-cell footer-newsletter">
+                            <div class="section-header text-center">
+                                <label class="h2"><span>ثبت نام برای  </span>خبر نامه</label>
+                            </div>
+                            <form action="#" method="post">
+                                <div class="input-group">
+                                    <input disabled type="email" class="input-group__field newsletter__input" name="EMAIL"
+                                           value="" placeholder="ایمیل" required="">
+                                    <span class="input-group__btn">
+                                            <button disabled  type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                                                <span class="newsletter__submit-text--large">اشتراک</span>
+                                            </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                    <div class="footer-social">
+                        <ul class="list--inline site-footer__social-icons social-icons">
+
+                            <li><a class="social-icons__link" href="mailto:{{sitesetting.email}}" target="_blank"
+                                   title="ما را در توئیتر دنبال کنید"><i class="icon icon-email"></i> <span
+                                   class="icon__fallback-text">Email</span>
+                            </a></li>
+                            <li><a class="social-icons__link" href="Tel:{{sitesetting.telephon}}" target="_blank"
+                                title="ما را در توئیتر دنبال کنید"><i class="icon anm anm-phone-s"></i> <span
+                                class="icon__fallback-text">Phone</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-footer">
+        <div class="container">
+            <!--Footer Links-->
+            <div class="footer-top text-right">
+                <div class="row">
+                    {% for footerasli in footeraslis %}
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        <h4 class="h4">{{footerasli.name}}</h4>
+                        <ul>
+                            {% for footer in footerasli.footerzir_set.all %}
+                            <li><a href="{{footer.link}}">{{footer.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        <h4 class="h4">ارتباط با ما</h4>
+                        <ul class="addressFooter">
+                            <li><i class="icon anm anm-map-marker-al"></i>
+                                <p>{{sitesetting.address}}</p>
+                            </li>
+                            <li class="phone"><i class="icon anm anm-phone-s"></i>
+                                <p dir="ltr" ><a href="Tel:{{sitesetting.telephon}}">{{sitesetting.telephon}}</a></p>
+                            </li>
+                            <li class="email"><i class="icon anm anm-envelope-l"></i>
+                                <p style="font-family: IRANSans;"><a href="mailto:{{sitesetting.email}}">{{sitesetting.email}}</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--End Footer Links-->
+            <hr>
+            <div class="footer-bottom">
+                <div class="row">
+                    <!--Footer Copyright-->
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-12 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-center">
+                        <p>  طراحی و توسعه در تیم<a href="https://sammotlagh.com/" target="blank">  پزشک کسب و کار  </a></p>
+                    </div>
+                    <!--End Footer Copyright-->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--End Footer-->
+<!--Scoll Top-->
+<span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+<!--End Scoll Top-->

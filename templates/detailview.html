@@ -1,0 +1,764 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+    <!--End Mobile Menu-->
+
+    <!--Body Content-->
+    <div id="page-content">
+        <!--MainContent-->
+        <div id="MainContent" class="main-content" role="main">
+            <!--Breadcrumb-->
+            <div class="bredcrumbWrap">
+                <div class="container breadcrumbs">
+                    <a href="/" title="بازگشت به صفحه اصلی">صفحه اصلی</a><span><a href="{% url 'poduct:listview' %}" title="بازگشت به صفحه اصلی">همه کالاها</a></span><span><a href="{% url 'poduct:category_listview' product.category.name %}">{{product.category}}</a></span><span>{{product.name}}</span>
+                </div>
+            </div>
+            <!--End Breadcrumb-->
+
+            <div id="ProductSection-product-template" class="product-template__container prstyle1 container product-right-sidebar">
+                <!--product-single-->
+                <div class="product-single">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                            <div class="product-details-img">
+                                <div class="zoompro-wrap product-zoom-right pl-20">
+                                    <div class="zoompro-span">
+                                        <img class="blur-up lazyload zoompro" data-zoom-image="{{product.image.url}}" alt="{{product.alt}}" src="{{product.image.url}}">
+                                    </div>
+                                    <div class="product-labels"><span class="lbl on-sale">حراج</span><span class="lbl pr-label1">جدید</span></div>
+                                    <div class="product-buttons">
+                                        <a href="#" class="btn prlightbox" title="بزرگنمایی"><i class="icon anm anm-expand-l-arrows" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="lightboximages">
+                                    <a href="{{product.image.url}}" data-size="1462x2048"></a>
+                                    <a href="{{product.image_2.url}}" data-size="1462x2048"></a>
+                                    {% for gallery in product.galleryimage_set.all %} 
+                                    <a href="{{gallery.image.url}}" data-size="1462x2048"></a>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="product-thumb">
+                                    <div id="gallery" class="product-dec-slider-2 product-tab-left">
+
+                                        <a data-image="{{product.image.url}}"
+                                           data-zoom-image="{{product.image.url}}" class="slick-slide slick-cloned"
+                                           data-slick-index="-4" aria-hidden="true" tabindex="-1">
+                                            <img class="blur-up lazyload" src="{{product.image.url}}" alt="{{product.alt}}">
+                                        </a>
+                                        <a data-image="{{product.image_2.url}}"
+                                           data-zoom-image="{{product.image_2.url}}" class="slick-slide slick-cloned"
+                                           data-slick-index="-4" aria-hidden="true" tabindex="-1">
+                                            <img class="blur-up lazyload" src="{{product.image_2.url}}" alt="{{product.alt_2}}">
+                                        </a>
+                                        {% for gallery in product.galleryimage_set.all %} 
+                                        <a data-image="{{gallery.image.url}}"
+                                           data-zoom-image="{{gallery.image.url}}" class="slick-slide slick-cloned"
+                                           data-slick-index="-4" aria-hidden="true" tabindex="-1">
+                                            <img class="blur-up lazyload" src="{{gallery.image.url}}" alt="{{gallery.alt}}">
+                                        </a> 
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-information">
+                                <div class="product-single__meta">
+                                    <h1 class="product-single__title">{{product.name}}</h1>
+                                    <div class="product-nav clearfix">
+                                    </div>
+                                    <div class="prInfoRow">
+                                        <div class="product-stock"><span class="instock ">{% if product.tedad_mahsole == 0 %}ناموجود{% else %}موجود{% endif %}</span> <span class="outstock hide">نا موجود</span></div>
+                                        <div class="product-sku">کد کالا: <span class="variant-sku">{{product.id}}xso-m</span></div>
+                                        <div class="product-review">
+                                            {% comment %} <a class="reviewLink" href="#tab2">
+                                                <i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i>
+                                                <span class="spr-badge-caption"> نظرات (6)</span>
+                                            </a> {% endcomment %}
+                                        </div>
+                                    </div>
+                                    <p class="product-single__price product-single__price-product-template">
+                                        <span class="visually-hidden">قیمت عادی</span>
+                                        <span class="product-price__price product-price__price-product-template">
+                                            <span id="ProductPrice-product-template"><span class="money">
+                                                {% if product.tedad_mahsole == 0 %}
+                                                    ناموجود
+                                                {% else %}
+                                                    {% if not product.takhfif %}
+                                                    <span class="price"><span id="nprice">{{product.price_asli}}</span> تومان</span>
+                                                    {% else %}
+                                                    <span class="price"><span id="nprice">{{product.main_discount_cal}}</span> تومان</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </span></span>
+                                        </span>
+                                    </p>
+                                    <div class="product-single__description rte">
+                                        <p>{{product.info|safe}}</p>
+                                    </div>
+                                    
+                                    <form method="post" accept-charset="UTF-8"
+                                          class="product-form product-form-product-template hidedropdown"  action='{% url "Cart:add_user_order" %}' >
+                                        {% csrf_token %}
+                                        {{form.product_id}}
+                                        <div class="swatch clearfix swatch-0 option1" data-option-index="0">
+                                            <div class="product-form__item color">
+                                                <div  data-value="{{product.id}}a" class="swatch-element color {{product.id}}a available">
+                                                    <input {% if not product.tedad_mahsole == 0 %} onclick="changecolor('o',{{product.id}})" {% endif %} class="swatchInput" checked="checked" id="swatch-0-{{product.id}}a" type="radio" name="color" value="{{product.color_asli}}">
+                                                    <label class="swatchLbl color small" for="swatch-0-{{product.id}}a" style="background-color:{{product.color_asli}};"></label>
+                                                </div>
+                                                
+                                                {% for color in product.color_set.all %}
+                                                <div data-value="{{color.id}}b" class="swatch-element color {{color.id}}b available">
+                                                    <input {% if not product.tedad_mahsole == 0 %} onclick="changecolor({{color.id}},{{product.id}})" {% endif %} class="swatchInput" id="swatch-0-{{color.id}}b" type="radio" name="color" value="{{color.color}}">
+                                                    <label class="swatchLbl color small" for="swatch-0-{{color.id}}b" style="background-color:{{color.color}};"></label>
+                                                </div>   
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="swatch clearfix swatch-1 option2" data-option-index="1">
+                                            <div class="product-form__item size">
+                                                <label class="header">سایز: <span class="slVariant"></span></label>
+                                                <div   class="swatch-element xs available">
+                                                    <input {% if not product.tedad_mahsole == 0 %} onclick="changesize('o',{{product.id}})" {% endif %} data-value="{{product.size_asli}}" class="swatchInput" checked="checked" id="swatch-1-{{product.size_asli}}" type="radio" name="size" value="{{product.size_asli}}">
+                                                    <label class="swatchLbl large rectangle" for="swatch-1-{{product.size_asli}}" title="{{product.size_asli}}">{{product.size_asli}}</label>
+                                                </div>
+                                                {% for size in product.size_set.all %}
+                                                <div  class="swatch-element xs available">
+                                                    <input {% if not product.tedad_mahsole == 0 %} onclick="changesize({{size.id}},{{product.id}})" {% endif %} data-value="{{size.size}}" class="swatchInput" id="swatch-1-{{size.size}}" type="radio" name="size" value="{{size.size}}">
+                                                    <label class="swatchLbl large rectangle" for="swatch-1-{{size.size}}" title="{{size.size}}">{{size.size}}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% comment %} <p class="infolinks">
+                                            <a href="#sizechart" class="sizelink btn"> راهنمای سایز</a>
+                                            <a href="#productInquiry" class="emaillink btn"> درباره این محصول سؤال کنید</a>
+                                        </p> {% endcomment %}
+                                        <!-- Product Action -->
+                                        <div class="product-action clearfix">
+                                            <div class="product-form__item--quantity">
+                                                <div class="wrapQtyBtn">
+                                                    <div class="qtyField">
+                                                        <input type="number" name='count'  {% if product.tedad_mahsole == 0 %} value='0' disabled {% else %} min='1' max='{{product.tedad_mahsole}}' value="{{form.count.initial}}" {% endif %} >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-form__item--submit">
+                                                <button type="submit" class="btn product-form__cart-submit" {% if product.tedad_mahsole == 0 %}disabled{% endif %} >
+                                                    <span id="AddToCartText-product-template">{% if product.tedad_mahsole == 0 %}ناموجود{% else %}پیش سفارش!{% endif %}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- End Product Action -->
+                                    </form>
+                                    <div class="display-table shareRow">
+                                        <div class="display-table-cell medium-up--one-third">
+                                           
+                                        </div>
+                                        {% comment %} <div class="display-table-cell text-left">
+                                            <div class="social-sharing">
+                                                <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-facebook" title="اشتراک گذاری در فیسبوک">
+                                                    <i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">اشتراک گذاری</span>
+                                                </a>
+                                                <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-twitter" title="توئیت در توئیتر">
+                                                    <i class="fa fa-twitter" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">توئیتر</span>
+                                                </a>
+                                                <a href="#" title="اشتراک گذاری در گوگل پلاس" class="btn btn--small btn--secondary btn--share">
+                                                    <i class="fa fa-google-plus" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">گوگل پلاس</span>
+                                                </a>
+                                                <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-pinterest" title="پین کردن در پینترست">
+                                                    <i class="fa fa-pinterest" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">پین کن</span>
+                                                </a>
+                                                <a href="#" class="btn btn--small btn--secondary btn--share share-pinterest" title="اشتراک گذاری با ایمیل" target="_blank">
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">ایمیل</span>
+                                                </a>
+                                            </div>
+                                        </div> {% endcomment %}
+                                    </div>
+
+                                    <div class="product-info">
+                                        <p class="product-type"><span class="lbl">نوع محصول: </span> <a href="{% url 'poduct:category_listview' product.category.name %}" title="زنانه">{{product.category.name}}</a></p>
+                                        <p class="product-cat"><span class="lbl">کمپانی: </span><a href="#" title="">{{product.company.name}}</a></p>
+                                        <p class="product-tags"><span class="lbl">برچسب های محصول: </span>
+                                            {% for tag in product.tags.all %}
+                                            {% if forloop.last %}
+                                            <a href="{% url 'poduct:SearchView' tag.name %}">{{tag.name}}</a>
+                                            {% else %}
+                                            <a href="{% url 'poduct:SearchView' tag.name %}">{{tag.name}}</a>,
+                                            {% endif %}
+                                            {% endfor %}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--Product Tabs-->
+                            <div class="tabs-listing">
+                                <ul class="product-tabs">
+                                    <li rel="tab1"><a class="tablink">جزئیات محصول</a></li>
+                                    <li rel="tab2"><a class="tablink">نظرات محصول</a></li>
+                                    <li rel="tab3"><a class="tablink">جدول سایزبندی</a></li>
+                                    {% for tab in producttabs %}
+                                    <li rel="t{{tab.id}}"><a class="tablink">{{tab.name}}</a></li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                                <div class="tab-container">
+                                    <div id="tab1" class="tab-content">
+                                        <div class="product-description rte">
+                                           {{product.info|safe}}
+                                        </div>
+                                    </div>
+
+                                    <div id="tab2" class="tab-content">
+                                        <div id="shopify-product-reviews">
+                                            <div class="spr-container">
+                                                <div class="spr-header clearfix">
+                                                    <div class="spr-summary">
+                                                        {% comment %} <span class="product-review">
+                                                            <a class="reviewLink">
+                                                                <i class="font-13 fa fa-star"></i>
+                                                                <i class="font-13 fa fa-star"></i>
+                                                                <i class="font-13 fa fa-star"></i>
+                                                                <i class="font-13 fa fa-star-o"></i>
+                                                                <i class="font-13 fa fa-star-o"></i>
+                                                            </a>
+                                                            <span class="spr-summary-actions-togglereviews">(456) بر اساس 6 نظر</span>
+                                                        </span> {% endcomment %}
+                                                        <span class="spr-summary-actions">
+                                                                <a href="#" class="spr-summary-actions-newreview btn">نظر خود را بنویسید</a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="spr-content">
+                                                    <div class="spr-form clearfix">
+                                                        <form method="post" action="#" id="new-review-form" class="new-review-form">
+                                                            <h3 class="spr-form-title">نظر خود را بنویسید</h3>
+                                                            <fieldset class="spr-form-contact">
+                                                                <div class="spr-form-contact-name">
+                                                                    <label class="spr-form-label" for="review_author_10508262282">نام</label>
+                                                                    <input class="spr-form-input spr-form-input-text " id="review_author_10508262282" type="text"
+                                                                           name="review[author]" value="" placeholder="نام خود را وارد کنید">
+                                                                </div>
+                                                                <div class="spr-form-contact-email">
+                                                                    <label class="spr-form-label" for="review_email_10508262282">ایمیل</label>
+                                                                    <input class="spr-form-input spr-form-input-email " id="review_email_10508262282" type="email"
+                                                                           name="review[email]" value="" placeholder="john.smith@example.com">
+                                                                </div>
+                                                            </fieldset>
+                                                            <fieldset class="spr-form-review">
+                                                                <div class="spr-form-review-rating">
+                                                                    <label class="spr-form-label">رتبه بندی</label>
+                                                                    {% comment %} <div class="spr-form-input spr-starrating">
+                                                                        <div class="product-review">
+                                                                            <a class="reviewLink" href="#">
+                                                                                <i class="fa fa-star-o"></i>
+                                                                                <i class="font-13 fa fa-star-o"></i>
+                                                                                <i class="font-13 fa fa-star-o"></i>
+                                                                                <i class="font-13 fa fa-star-o"></i>
+                                                                                <i class="font-13 fa fa-star-o"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div> {% endcomment %}
+                                                                </div>
+
+                                                                <div class="spr-form-review-title">
+                                                                    <label class="spr-form-label" for="review_title_10508262282">عنوان نظر</label>
+                                                                    <input class="spr-form-input spr-form-input-text " id="review_title_10508262282" type="text"
+                                                                           name="review[title]" value="" placeholder="عنوان نظر خود را بنویسید">
+                                                                </div>
+
+                                                                <div class="spr-form-review-body">
+                                                                    <label class="spr-form-label" for="review_body_10508262282">متن نظر <span
+                                                                            class="spr-form-review-body-charactersremaining">(1500)</span></label>
+                                                                    <div class="spr-form-input">
+                                                                        <textarea class="spr-form-input spr-form-input-textarea " id="review_body_10508262282"
+                                                                                  data-product-id="10508262282" name="review[body]" rows="10"
+                                                                                  placeholder="نظر خود را اینجا بنویسید"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                            <fieldset class="spr-form-actions">
+                                                                <input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary"
+                                                                       value="ثبت نظر" disabled>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                    <div class="spr-reviews">
+                                                        <div class="spr-review">
+                                                            <div class="spr-review-header">
+                                                                <span class="product-review spr-starratings spr-review-header-starratings">
+                                                                    <span class="reviewLink">
+                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="font-13 fa fa-star"></i>
+                                                                        <i class="font-13 fa fa-star"></i>
+                                                                        <i class="font-13 fa fa-star"></i>
+                                                                        <i class="font-13 fa fa-star"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <h3 class="spr-review-header-title">لورم ایپسوم متن ساختگی با</h3>
+                                                                <span class="spr-review-header-byline">
+                                                                    <strong>علی</strong> در <strong>20 تیر 99</strong>
+                                                                </span>
+                                                            </div>
+                                                            <div class="spr-review-content">
+                                                                <p class="spr-review-content-body">
+                                                                    از آنجا که لورم ایپسوم، شباهت زیادی به متن های واقعی دارد، طراحان معمولا از لورم ایپسوم استفاده میکنند تا فقط به
+                                                                    مشتری یا کار فرما نشان دهند که قالب طراحی شده بعد از اینکه متن در آن قرار میگرد چگونه خواهد بود و فونت ها و
+                                                                    اندازه ها چگونه در نظر گرفته شده است.</p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="tab3" class="tab-content">
+                                        <h3>جدول سایز بندی بانوان</h3>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>سایز</th>
+                                                <th>XS</th>
+                                                <th>S</th>
+                                                <th>M</th>
+                                                <th>L</th>
+                                                <th>XL</th>
+                                            </tr>
+                                            <tr>
+                                                <td>سینه</td>
+                                                <td>31" - 33"</td>
+                                                <td>33" - 35"</td>
+                                                <td>35" - 37"</td>
+                                                <td>37" - 39"</td>
+                                                <td>39" - 42"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>کمر</td>
+                                                <td>24" - 26"</td>
+                                                <td>26" - 28"</td>
+                                                <td>28" - 30"</td>
+                                                <td>30" - 32"</td>
+                                                <td>32" - 35"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>باسن</td>
+                                                <td>34" - 36"</td>
+                                                <td>36" - 38"</td>
+                                                <td>38" - 40"</td>
+                                                <td>40" - 42"</td>
+                                                <td>42" - 44"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>عرض پاچه</td>
+                                                <td>30"</td>
+                                                <td>30½"</td>
+                                                <td>31"</td>
+                                                <td>31½"</td>
+                                                <td>32"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>طول پاچه</td>
+                                                <td>31½"</td>
+                                                <td>32"</td>
+                                                <td>32½"</td>
+                                                <td>33"</td>
+                                                <td>33½"</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <h3>جدول سایز بندی آقایان</h3>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>سایز</th>
+                                                <th>XS</th>
+                                                <th>S</th>
+                                                <th>M</th>
+                                                <th>L</th>
+                                                <th>XL</th>
+                                                <th>XXL</th>
+                                            </tr>
+                                            <tr>
+                                                <td>سینه</td>
+                                                <td>33" - 36"</td>
+                                                <td>36" - 39"</td>
+                                                <td>39" - 41"</td>
+                                                <td>41" - 43"</td>
+                                                <td>43" - 46"</td>
+                                                <td>46" - 49"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>کمر</td>
+                                                <td>27" - 30"</td>
+                                                <td>30" - 33"</td>
+                                                <td>33" - 35"</td>
+                                                <td>36" - 38"</td>
+                                                <td>38" - 42"</td>
+                                                <td>42" - 45"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>باسن</td>
+                                                <td>33" - 36"</td>
+                                                <td>36" - 39"</td>
+                                                <td>39" - 41"</td>
+                                                <td>41" - 43"</td>
+                                                <td>43" - 46"</td>
+                                                <td>46" - 49"</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="text-center">
+                                            <img src="{% static 'assets/images/size.jpg' %}" alt=""/>
+                                        </div>
+                                    </div>
+                                    {% for tab in producttabs %}
+                                    <div id="t{{tab.id}}" class="tab-content">
+                                        <div class="product-description rte">
+                                           {{tab.text|safe}}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    
+                                </div>
+                            </div>
+                            <!--End Product Tabs-->
+                        </div>
+                        <!--Product Sidebar-->
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                            <div class="prSidebar sidebar-product">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <!--Product Feature-->
+                                    <div class="prFeatures">
+                                        <div class="row">
+                                            {% for x in vizhegi %}
+                                            <div class="feature">
+                                                <img src="{{x.image.url}}" alt="Safe Payment" title="{{x.title}}"/>
+                                                <div class="details"><h3>{{x.title}}</h3>{{x.info}}</div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div> 
+                                    <!--End Product Feature-->
+                                    <!--Related Product-->
+                                    <div class="related-product grid-products">
+                                        <header class="section-header">
+                                            <h2 class="section-header__title text-center h2"><span>محصولات مرتبط</span></h2>
+                                            <p class="sub-heading">محصولات پیشنهادی ما به شما</p>
+                                        </header>
+                                        <div class="grid">
+                                            <div class="grid__item">
+                                                {% for pro in products %}
+                                                <div class="mini-list-item">
+                                                    <div class="mini-view_image">
+                                                        <a class="grid-view-item__link" href="{% url 'poduct:detailview' pro.id %}">
+                                                            <img class="grid-view-item__image" src="{{pro.image.url}}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="details">
+                                                        <a class="grid-view-item__title" href="#">{{pro.name}}</a>
+                                                        <div class="grid-view-item__meta"><span class="product-price__price"><span class="money">
+                                                            {% if not pro.takhfif %}
+                                                            <span class="pricee">{{pro.price_asli}} تومان</span>
+                                                            {% else %}
+                                                            <span class="pricee">{{pro.main_discount_cal}} تومان</span>
+                                                            {% endif %}</span></span></div>
+                                                        {% comment %} <div class="product-review">
+                                                            <i class="font-13 fa fa-star"></i>
+                                                            <i class="font-13 fa fa-star"></i>
+                                                            <i class="font-13 fa fa-star"></i>
+                                                            <i class="font-13 fa fa-star"></i>
+                                                            <i class="font-13 fa fa-star"></i>
+                                                        </div> {% endcomment %}
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--End Related Product-->
+                                    <!--Recently Viewed Product-->
+                                    <div class="related-product grid-products">
+ 
+                                    </div>
+                                    <!--End Recently Viewed Product-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--Product Sidebar-->
+                    </div>
+                </div>
+                <!--End-product-single-->
+
+
+            </div>
+            <!--#ProductSection-product-template-->
+        </div>
+        <!--MainContent-->
+    </div>
+    <!--End Body Content-->
+
+
+    <div class="hide">
+        <div id="sizechart">
+            <h3>جدول سایز بندی بانوان</h3>
+            <table>
+                <tbody>
+                <tr>
+                    <th>سایز</th>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                </tr>
+                <tr>
+                    <td>سینه</td>
+                    <td>31" - 33"</td>
+                    <td>33" - 35"</td>
+                    <td>35" - 37"</td>
+                    <td>37" - 39"</td>
+                    <td>39" - 42"</td>
+                </tr>
+                <tr>
+                    <td>کمر</td>
+                    <td>24" - 26"</td>
+                    <td>26" - 28"</td>
+                    <td>28" - 30"</td>
+                    <td>30" - 32"</td>
+                    <td>32" - 35"</td>
+                </tr>
+                <tr>
+                    <td>باسن</td>
+                    <td>34" - 36"</td>
+                    <td>36" - 38"</td>
+                    <td>38" - 40"</td>
+                    <td>40" - 42"</td>
+                    <td>42" - 44"</td>
+                </tr>
+                <tr>
+                    <td>عرض پاچه</td>
+                    <td>30"</td>
+                    <td>30½"</td>
+                    <td>31"</td>
+                    <td>31½"</td>
+                    <td>32"</td>
+                </tr>
+                <tr>
+                    <td>طول پاچه</td>
+                    <td>31½"</td>
+                    <td>32"</td>
+                    <td>32½"</td>
+                    <td>33"</td>
+                    <td>33½"</td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>جدول سایز بندی آقایان</h3>
+            <table>
+                <tbody>
+                <tr>
+                    <th>سایز</th>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                </tr>
+                <tr>
+                    <td>سینه</td>
+                    <td>33" - 36"</td>
+                    <td>36" - 39"</td>
+                    <td>39" - 41"</td>
+                    <td>41" - 43"</td>
+                    <td>43" - 46"</td>
+                    <td>46" - 49"</td>
+                </tr>
+                <tr>
+                    <td>کمر</td>
+                    <td>27" - 30"</td>
+                    <td>30" - 33"</td>
+                    <td>33" - 35"</td>
+                    <td>36" - 38"</td>
+                    <td>38" - 42"</td>
+                    <td>42" - 45"</td>
+                </tr>
+                <tr>
+                    <td>باسن</td>
+                    <td>33" - 36"</td>
+                    <td>36" - 39"</td>
+                    <td>39" - 41"</td>
+                    <td>41" - 43"</td>
+                    <td>43" - 46"</td>
+                    <td>46" - 49"</td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="padding-left: 30px;"><img src="{% static 'assets/images/size.jpg' %}" alt=""></div>
+        </div>
+    </div>
+    <div class="hide">
+        <div id="productInquiry">
+            <div class="contact-form form-vertical">
+                <div class="page-title">
+                    <h3>جلیقه برگشت پذیر کاملیا</h3>
+                </div>
+                <form method="post" action="#" id="contact_form" class="contact-form">
+                    <input type="hidden" name="form_type" value="contact"/>
+                    <input type="hidden" name="utf8" value="✓"/>
+                    <div class="formFeilds">
+                        <input type="hidden" name="contact[product name]" value="Camelia Reversible Jacket">
+                        <input type="hidden" name="contact[product link]" value="/products/camelia-reversible-jacket-black-red">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="text" id="ContactFormName" name="contact[name]" placeholder="نام" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="ایمیل" autocapitalize="off" value="" required>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <input required type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" placeholder="شماره تلفن" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <textarea required rows="10" id="ContactFormMessage" name="contact[body]" placeholder="پیام"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="submit" class="btn" value="ارسال پیام">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% if not product.tedad_mahsole == 0 %}
+<script
+  src="https://code.jquery.com/jquery-3.6.1.js"
+  integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+  crossorigin="anonymous">
+</script>
+<script>
+var color_price = 0
+var size_price = 0
+function changecolor(cid,pid){
+    $.ajax({
+        type : 'GET',
+        url: "{% url 'poduct:color_ajax' %}",
+        data : { 'color_id' : cid, 'product_id' : pid },
+        dataType : 'json',
+        success: function(result){
+            color_price = result.add_price;
+            $("#nprice").text(color_price+size_price+{{product.main_discount_cal}});
+    }});
+};
+function changesize(cid,pid){
+    $.ajax({
+        type : 'GET',
+        url: "{% url 'poduct:size_ajax' %}",
+        data : { 'size_id' : cid, 'product_id' : pid },
+        dataType : 'json',
+        success: function(result){
+            size_price = result.add_price;
+            $("#nprice").text(color_price+size_price+{{product.main_discount_cal}});
+    }});
+};
+
+</script>
+{% endif %}
+{% endblock body %}
+
+{% block classbody %}template-product template-product-right-thumb belle{% endblock classbody %}
+{% block js %}
+<!-- Photoswipe Gallery -->
+<script src="{% static 'assets/js/vendor/photoswipe.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/photoswipe-ui-default.min.js' %}"></script>
+<script>
+    $(function () {
+        var $pswp = $('.pswp')[0],
+            image = [],
+            getItems = function () {
+                var items = [];
+                $('.lightboximages a').each(function () {
+                    var $href = $(this).attr('href'),
+                        $size = $(this).data('size').split('x'),
+                        item = {
+                            src: $href,
+                            w: $size[0],
+                            h: $size[1]
+                        }
+                    items.push(item);
+                });
+                return items;
+            }
+        var items = getItems();
+
+        $.each(items, function (index, value) {
+            image[index] = new Image();
+            image[index].src = value['src'];
+        });
+        $('.prlightbox').on('click', function (event) {
+            event.preventDefault();
+
+            var $index = $(".active-thumb").parent().attr('data-slick-index');
+            $index++;
+            $index = $index - 1;
+
+            var options = {
+                index: $index,
+                bgOpacity: 0.9,
+                showHideOpacity: true
+            }
+            var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
+            lightBox.init();
+        });
+    });
+</script>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="بستن (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="اشتراک گذاری"></button>
+                <button class="pswp__button pswp__button--fs" title="تمام صفحه"></button>
+                <button class="pswp__button pswp__button--zoom" title="زوم"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="قبلی (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="بعدی (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock js %}
